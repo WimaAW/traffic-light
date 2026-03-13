@@ -1,37 +1,69 @@
-const red = document.getElementById("red");
-const yellow = document.getElementById("yellow");
-const green = document.getElementById("green");
-const switchBtn = document.getElementById("switchBtn");
+// Deklarasi DOM element HTML
+const Lampu_merah = document.getElementById("red");
+const Lampu_kuning = document.getElementById("yellow");
+const Lampu_hijau = document.getElementById("green");
+const Tombol_on = document.getElementById("switchBtn");
+const Tombol_auto = document.getElementById("autoBtn");
+const Tombol_reset = document.getElementById("resetBtn");
 
-function resetLights() {
-	red.style.background = "#444";
-	yellow.style.background = "#444";
-	green.style.background = "#444";
+// Deklarasi Variabel
+let i = 0;
+let autoInterval;
+
+// Fungsi lampu default (Reset)
+function Default_Lampu() {
+    clearInterval(autoInterval);
+    Lampu_merah.style.background = "#444";
+    Lampu_kuning.style.background = "#444";
+    Lampu_hijau.style.background = "#444";
+    i = 0;
 }
 
-let current = "red";
-red.style.background = "red";
-
-function switchLight() {
-	switchBtn.disabled = true;
-	resetLights();
-
-	// Nyalain kuning dulu
-	yellow.style.background = "yellow";
-
-	setTimeout(() => {
-		resetLights();
-
-		if (current === "red") {
-			green.style.background = "lime";
-			current = "green";
-		} else {
-			red.style.background = "red";
-			current = "red";
-		}
-
-		switchBtn.disabled = false;
-	}, 1000); // kuning nyala 300ms
+// Fungsi mengganti lampu manual
+function Manual_Lampu() {
+    clearInterval(autoInterval);
+    if (i === 0) {
+        Lampu_merah.style.background = "red";
+        Lampu_kuning.style.background = "#444";
+        Lampu_hijau.style.background = "#444";
+        i++;
+    } else if (i === 1) {
+        Lampu_merah.style.background = "#444";
+        Lampu_kuning.style.background = "yellow";
+        Lampu_hijau.style.background = "#444";
+        i++;
+    } else if (i === 2) {
+        Lampu_merah.style.background = "#444";
+        Lampu_kuning.style.background = "#444";
+        Lampu_hijau.style.background = "green";
+        i = 0;
+    }
 }
 
-switchBtn.addEventListener("click", switchLight);
+// Fungsi mengganti lampu otomatis
+function Otomatis_Lampu() {
+    clearInterval(autoInterval);
+    autoInterval = setInterval(() => {
+        if (i === 0) {
+            Lampu_merah.style.background = "red";
+            Lampu_kuning.style.background = "#444";
+            Lampu_hijau.style.background = "#444";
+            i++;
+        } else if (i === 1) {
+            Lampu_merah.style.background = "#444";
+            Lampu_kuning.style.background = "yellow";
+            Lampu_hijau.style.background = "#444";
+            i++;
+        } else if (i === 2) {
+            Lampu_merah.style.background = "#444";
+            Lampu_kuning.style.background = "#444";
+            Lampu_hijau.style.background = "green";
+            i = 0;
+        }
+    }, 1000); 
+}
+
+// event listener tombol
+Tombol_on.addEventListener("click", Manual_Lampu);
+Tombol_auto.addEventListener("click", Otomatis_Lampu);
+Tombol_reset.addEventListener("click", Default_Lampu);
